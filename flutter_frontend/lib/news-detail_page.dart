@@ -30,9 +30,16 @@ class NewsDetailPage extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<News?> snapshot) {
                 News? news = snapshot.data;
                 if (news != null) {
-                  DateTime createdAtDateTime = DateTime.parse(news.createdAt);
-                  String timeAgo = timeago.format(createdAtDateTime,
-                      allowFromNow: true, locale: 'en');
+                  final String? createdAt = news.createdAt;
+                  String timeAgo = "";
+
+                  if (createdAt != null && createdAt != "") {
+                    DateTime createdAtDateTime = DateTime.parse(createdAt);
+                    timeAgo = timeago.format(createdAtDateTime,
+                        allowFromNow: true, locale: 'en');
+                  } else {
+                    timeAgo = "";
+                  }
                   return Stack(
                     children: [
                       AspectRatio(
@@ -44,7 +51,7 @@ class NewsDetailPage extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               alignment: Alignment.topLeft,
-                              image: CachedNetworkImageProvider(news.image),
+                              image: CachedNetworkImageProvider(news.image!),
                             ),
                           ),
                         ),
@@ -73,7 +80,7 @@ class NewsDetailPage extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                       child: Text(
-                                        news.category,
+                                        news.category!,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -82,7 +89,7 @@ class NewsDetailPage extends StatelessWidget {
                                     ),
                                     SizedBox(height: 10),
                                     Text(
-                                      news.title,
+                                      news.title!,
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold,
@@ -100,7 +107,7 @@ class NewsDetailPage extends StatelessWidget {
                                     ),
                                     SizedBox(height: 10),
                                     Text(
-                                      news.content,
+                                      news.content!,
                                       style: TextStyle(fontSize: 18),
                                     ),
                                   ],
@@ -145,7 +152,6 @@ class NewsDetailPage extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
       ),
     );
   }

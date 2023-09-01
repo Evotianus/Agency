@@ -7,7 +7,14 @@ import 'Classes/news.dart';
 import 'Services/http_service.dart';
 
 class NewsPage extends StatelessWidget {
-  const NewsPage({super.key});
+  bool isLogin;
+  String? loggedUserId;
+
+  NewsPage({
+    super.key,
+    required this.isLogin,
+    required this.loggedUserId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,10 @@ class NewsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("News"),
       ),
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(
+        isLogin: isLogin,
+        loggedUserId: loggedUserId,
+      ),
       body: FutureBuilder(
         future: getNews('/get-news'),
         builder: (BuildContext, AsyncSnapshot<List<News>?> snapshot) {
@@ -32,13 +42,13 @@ class NewsPage extends StatelessWidget {
                   children: newsList.map((News news) {
                     print(news.createdAt);
                     return NewsCardWidget(
-                        newsId: news.newsId,
-                        title: news.title,
-                        category: news.category,
-                        image: news.image,
-                        author: news.author,
-                        authorProfile: news.authorProfile,
-                        createdAt: news.createdAt);
+                        newsId: news.newsId!,
+                        title: news.title!,
+                        category: news.category!,
+                        image: news.image!,
+                        author: news.author!,
+                        authorProfile: news.authorProfile!,
+                        createdAt: news.createdAt!);
                   }).toList(),
                 ),
               ),
@@ -55,7 +65,9 @@ class NewsPage extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return NewsInsertPage();
+                return NewsInsertPage(
+                  isLogin: isLogin,
+                );
               },
             ),
           );

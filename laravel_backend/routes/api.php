@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,10 @@ Route::post('buy-product', [ProductController::class, 'purchase']);
 
 Route::post('get-news', [NewsController::class, 'index']);
 Route::post('show-news/{id}', [NewsController::class, 'show']);
+Route::post('insert-news', [NewsController::class, 'create']);
+
+Route::post('register-user', [UserController::class, 'register']);
+Route::post('login-user', [UserController::class, 'login']);
+
+Route::post('get-event', [EventController::class, 'index']);
+Route::post('buy-ticket', [EventController::class, 'purchase']);

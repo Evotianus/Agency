@@ -1,22 +1,22 @@
 class News {
-  String newsId;
-  String title;
-  String content;
-  String category;
-  String image;
-  String author;
-  String authorProfile;
-  String createdAt;
+  String? newsId;
+  String? title;
+  String? content;
+  String? category;
+  String? image;
+  String? author;
+  String? authorProfile;
+  String? createdAt;
 
   News({
-    required this.newsId,
-    required this.title,
-    required this.content,
-    required this.category,
-    required this.image,
-    required this.author,
-    required this.authorProfile,
-    required this.createdAt,
+    this.newsId,
+    this.title,
+    this.content,
+    this.category,
+    this.image,
+    this.author,
+    this.authorProfile,
+    this.createdAt,
   });
 
   Map<String, dynamic> toJson() => {

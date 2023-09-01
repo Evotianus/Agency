@@ -1,4 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_frontend/Widgets/InputBoxWidget.dart';
+import 'package:flutter_frontend/shop_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'Classes/product.dart';
@@ -26,6 +29,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     double deviceWidth = MediaQuery.sizeOf(context).width;
     double deviceHeight = MediaQuery.sizeOf(context).height;
     final _quantityController = TextEditingController();
+    final _usernameController = TextEditingController();
 
     int quantity = 1;
 
@@ -63,7 +67,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        product!.image),
+                                        product!.image!),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -75,7 +79,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    product.name,
+                                    product.name!,
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
@@ -218,7 +222,39 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        buyProduct("/buy-product", widget.id, quantity);
+                        // showDialog(
+                        //   context: context,
+                        //   barrierDismissible: false,
+                        //   builder: (BuildContext context) {
+                        //     return AlertDialog(
+                        //       insetPadding: EdgeInsets.all(10),
+                        //       title: Text("Enter Username to Buy"),
+                        //       content: InputBoxWidget(
+                        //         label: "Username",
+                        //         controller: _usernameController,
+                        //       ),
+                        //       actions: [
+                        //         TextButton(
+                        //           onPressed: () {
+                        //             Navigator.of(context).pop();
+                        //           },
+                        //           child: Text("Buy Now!"),
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // );
+
+                        Future<Product?> boughtProduct =
+                            buyProduct("/buy-product", widget.id, quantity);
+
+                        Navigator.of(context).pop();
+
+                        // boughtProduct.then(
+                        //   (value) {
+                        //     print(value!.quantity);
+                        //   },
+                        // );
                       },
                       child: Container(
                         height: 50,
@@ -230,8 +266,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // width: -50,
-                        // color: Colors.red,
                       ),
                     ),
                   ),

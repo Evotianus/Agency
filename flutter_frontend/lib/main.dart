@@ -6,12 +6,14 @@ import 'home_page.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
   @override
+  bool isLogin = false;
+  String? loggedUser;
   State<MyApp> createState() => _MyAppState();
 }
 
@@ -26,7 +28,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: HomePage(
+        isLogin: widget.isLogin,
+        loggedUserId: widget.loggedUser,
+      ),
       theme: ThemeData(
           // scaffoldBackgroundColor: Colors.transparent,
           ),

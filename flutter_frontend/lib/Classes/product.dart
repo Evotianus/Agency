@@ -1,9 +1,9 @@
 class Product {
-  String productId;
-  String name;
-  int price;
-  int quantity;
-  String image;
+  String? productId;
+  String? name;
+  int? price;
+  int? quantity;
+  String? image;
 
   Product(
     this.productId,

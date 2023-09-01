@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use App\Models\News;
+use App\Models\Event;
 
 class DatabaseSeeder extends Seeder
 {
@@ -71,5 +72,37 @@ class DatabaseSeeder extends Seeder
         ];
 
         News::insert($newsList);
+
+
+        // Seeding for Events table
+
+        Event::truncate();
+
+        $eventList = [
+            [
+                'id' => 'EVT-001',
+                'title' => 'Cat Expedition Event',
+                'ticket_count' => 100,
+                'price' => 50000,
+                'event_date' => Carbon::createFromDate(2023, 8, 16),
+                'image' => 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=436&q=80',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                // 'event_date' => Carbon::parse('11/05/2023')->timestamp,
+                // 'event_date' => Carbon::createFromFormat('Y/m/d', '2023/08/16')->timestamp,
+            ],
+            [
+                'id' => 'EVT-002',
+                'title' => 'Super Car Expedition',
+                'ticket_count' => 50,
+                'price' => 100000,
+                'event_date' => Carbon::CreateFromDate(2023, 12, 1),
+                'image' => 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ];
+
+        Event::insert($eventList);
     }
 }

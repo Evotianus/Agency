@@ -36,7 +36,14 @@ Future<List<Product>> getProduct() async {
 }
 
 class ShopPage extends StatefulWidget {
-  const ShopPage({super.key});
+  bool isLogin;
+  String? loggedUserId;
+
+  ShopPage({
+    super.key,
+    required this.isLogin,
+    required this.loggedUserId,
+  });
 
   @override
   State<ShopPage> createState() => _ShopPageState();
@@ -49,7 +56,10 @@ class _ShopPageState extends State<ShopPage> {
     double deviceHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(
+        isLogin: widget.isLogin,
+        loggedUserId: widget.loggedUserId,
+      ),
       appBar: AppBar(
         title: Text("Shop"),
       ),
@@ -69,10 +79,10 @@ class _ShopPageState extends State<ShopPage> {
                     runSpacing: 20,
                     children: products.map((Product product) {
                       return ProductCardWidget(
-                        id: product.productId,
-                        image: product.image,
-                        title: product.name,
-                        price: product.price,
+                        id: product.productId!,
+                        image: product.image!,
+                        title: product.name!,
+                        price: product.price!,
                       );
                     }).toList(),
 

@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_frontend/Classes/event.dart';
+import 'package:flutter_frontend/Widgets/EventCardWidget.dart';
 import 'package:flutter_frontend/event-detail_page.dart';
 import 'package:flutter_frontend/insert_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'Widgets/DrawerWidget.dart';
+import 'Services/http_service.dart';
+import 'Classes/event.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  bool isLogin;
+  String? loggedUserId;
+
+  HomePage({
+    super.key,
+    required this.isLogin,
+    required this.loggedUserId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,119 +24,40 @@ class HomePage extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      drawer: DrawerWidget(),
-      appBar: AppBar(
-        title: const Text("User Lists"),
+      drawer: DrawerWidget(
+        isLogin: isLogin,
+        loggedUserId: loggedUserId,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            // ListTile(
-            //   title: Text("Hai Kawan"),
-            //   // leading: Icon(Icons.add),
-            //   // trailing: Icon(Icons.person),
-            // ),
-            // Divider(),
-            // ListTile(
-            //   title: Text("Hai Kawan"),
-            // ),
-            InkWell(
-              onTap: () => {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return EventDetailPage(title: "Cat Expedition Event");
-                    },
-                  ),
-                )
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  image: const DecorationImage(
-                    image: AssetImage("assets/event-banner-1.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                  // color: Colors.red,
-                ),
-                height: deviceHeight / 4,
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white54,
-                                borderRadius: BorderRadius.circular(10)),
-                            width: 75,
-                            height: 40,
-                            alignment: Alignment.center,
-                            child: const Text(
-                              "12/08",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      // alignment: Alignment.bottomCenter,
-                      height: 80,
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Cat Expedition Event",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text("12 January 2025"),
-                              ],
-                            ),
-                            Text(
-                              "\$100",
-                              style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+      appBar: AppBar(
+        title: const Text("Event Lists"),
+      ),
+      body: FutureBuilder(
+        future: getEvent("/get-event"),
+        builder: (BuildContext, AsyncSnapshot<List<Event>?> snapshot) {
+          List<Event>? newsList = snapshot.data;
+          if (newsList != null) {
+            print(loggedUserId);
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Wrap(
+                runSpacing: 10,
+                children: newsList.map((Event event) {
+                  return EventCardWidget(
+                    eventId: event.eventId!,
+                    title: event.title!,
+                    eventDate: event.eventDate!,
+                    price: event.price!,
+                    ticketCount: event.ticketCount!,
+                    image: event.image!,
+                    loggedUserId: loggedUserId,
+                  );
+                }).toList(),
               ),
-            )
-          ],
-        ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

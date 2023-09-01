@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Product_purchase;
 
 class ProductController extends Controller
 {
@@ -72,6 +73,10 @@ class ProductController extends Controller
 
     public function purchase(Request $request)
     {
-        return $request->getContent();
+        // Product_purchase::create([
+        //     'quantity'
+        // ])
+
+        return $request;
     }
 }
