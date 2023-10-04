@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AuditionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,5 @@ Route::post('login-user', [UserController::class, 'login']);
 
 Route::post('get-event', [EventController::class, 'index']);
 Route::post('buy-ticket', [EventController::class, 'purchase']);
+
+Route::post('insert-audition', [AuditionController::class, 'create']);

@@ -8,7 +8,7 @@ import 'Classes/product.dart';
 import 'Services/http_service.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  String id, image, title;
+  String id, image, title, loggedUserId;
   int price;
 
   ProductDetailPage({
@@ -17,6 +17,7 @@ class ProductDetailPage extends StatefulWidget {
     required this.image,
     required this.title,
     required this.price,
+    required this.loggedUserId,
   });
 
   @override
@@ -245,8 +246,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         //   },
                         // );
 
-                        Future<Product?> boughtProduct =
-                            buyProduct("/buy-product", widget.id, quantity);
+                        Future<Product?> boughtProduct = buyProduct(
+                            "/buy-product",
+                            widget.id,
+                            quantity,
+                            widget.loggedUserId);
 
                         Navigator.of(context).pop();
 

@@ -34,14 +34,14 @@ class HomePage extends StatelessWidget {
       body: FutureBuilder(
         future: getEvent("/get-event"),
         builder: (BuildContext, AsyncSnapshot<List<Event>?> snapshot) {
-          List<Event>? newsList = snapshot.data;
-          if (newsList != null) {
+          List<Event>? eventList = snapshot.data;
+          if (eventList != null) {
             print(loggedUserId);
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: Wrap(
                 runSpacing: 10,
-                children: newsList.map((Event event) {
+                children: eventList.map((Event event) {
                   return EventCardWidget(
                     eventId: event.eventId!,
                     title: event.title!,
@@ -60,6 +60,7 @@ class HomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,

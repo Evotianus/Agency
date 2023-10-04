@@ -4,7 +4,7 @@ import 'package:flutter_frontend/product-detail_page.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardWidget extends StatelessWidget {
-  String image, title, id;
+  String image, title, id, loggedUserId;
   int price;
 
   ProductCardWidget({
@@ -13,6 +13,7 @@ class ProductCardWidget extends StatelessWidget {
     required this.image,
     required this.title,
     required this.price,
+    required this.loggedUserId,
   });
 
   @override
@@ -30,6 +31,7 @@ class ProductCardWidget extends StatelessWidget {
                 image: image,
                 title: title,
                 price: price,
+                loggedUserId: loggedUserId,
               );
             },
           ),

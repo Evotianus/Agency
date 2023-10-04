@@ -28,7 +28,7 @@ Future<Product?> showProduct(path, id) async {
   return null;
 }
 
-Future<Product?> buyProduct(path, productId, quantity) async {
+Future<Product?> buyProduct(path, productId, quantity, userId) async {
   final response = await http.post(
     Uri.parse(uri + path),
     headers: <String, String>{
@@ -38,8 +38,15 @@ Future<Product?> buyProduct(path, productId, quantity) async {
     body: jsonEncode(<String, dynamic>{
       'product_id': productId,
       'quantity': quantity,
+      'user_id': userId,
     }),
   );
+
+  print(jsonEncode(<String, dynamic>{
+    'product_id': productId,
+    'quantity': quantity,
+    'user_id': userId,
+  }));
 
   if (response.statusCode == 200) {
     print("Gacor bg");
@@ -197,6 +204,36 @@ Future<String?> buyTicket(path, quantity, userId, eventId) async {
 
   if (response.statusCode == 200) {
     return "Ticket processed successfully!";
+  }
+
+  return null;
+}
+
+Future<String?> submitAudition(
+    path, username, interest, photoUrl, description) async {
+  final response = await http.post(
+    Uri.parse(uri + path),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: jsonEncode(<String, dynamic>{
+      'username': username,
+      'interest': interest,
+      'photo_url': photoUrl,
+      'description': description
+    }),
+  );
+
+  print(jsonEncode(<String, dynamic>{
+    'username': username,
+    'interest': interest,
+    'photo_url': photoUrl,
+    'description': description
+  }));
+
+  if (response.statusCode == 200) {
+    return "Audition Submittion Success!";
   }
 
   return null;

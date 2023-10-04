@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_frontend/Classes/Product.dart';
 import 'package:flutter_frontend/Widgets/ProductCardWidget.dart';
+import 'package:flutter_frontend/login_page.dart';
 import 'Widgets/DrawerWidget.dart';
 import 'package:http/http.dart' as http;
 
@@ -55,6 +56,11 @@ class _ShopPageState extends State<ShopPage> {
     double deviceWidth = MediaQuery.sizeOf(context).width;
     double deviceHeight = MediaQuery.sizeOf(context).height;
 
+    if (!widget.isLogin) {
+      return LoginPage(
+          isLogin: widget.isLogin, loggedUserId: widget.loggedUserId);
+    }
+
     return Scaffold(
       drawer: DrawerWidget(
         isLogin: widget.isLogin,
@@ -83,6 +89,7 @@ class _ShopPageState extends State<ShopPage> {
                         image: product.image!,
                         title: product.name!,
                         price: product.price!,
+                        loggedUserId: widget.loggedUserId!,
                       );
                     }).toList(),
 

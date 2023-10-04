@@ -73,9 +73,21 @@ class ProductController extends Controller
 
     public function purchase(Request $request)
     {
-        // Product_purchase::create([
-        //     'quantity'
-        // ])
+        $invoice_count = Product_purchase::count() + 1;
+        $invoice_id = sprintf("INV%07d", $invoice_count);
+
+        $product_stock = Product::where('id', $request->product_id)->get('quantity')[0]['quantity'];
+
+        // return $product_stock;
+
+        Product_purchase::create([
+            'id' => $invoice_id,
+            'quantity' => $request->quantity,
+            'product_id'=> $request->product_id,
+            'user_id'=> $request->user_id
+        ]);
+
+        Product::where('id', $request->product_id)->update(['quantity' => $product_stock - $request->quantity]);
 
         return $request;
     }

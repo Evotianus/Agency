@@ -27,7 +27,7 @@ class DrawerWidget extends StatelessWidget {
             DrawerHeader(
               decoration: BoxDecoration(color: Colors.blueAccent),
               child: Text(
-                "Database Agency",
+                "Praise Ent.",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
